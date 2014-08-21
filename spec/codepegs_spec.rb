@@ -2,20 +2,29 @@ require "spec_helper"
  
 module Mastermind
   describe CodePegs do
-    it "takes an array of 4 numbers" do
-		codepegs = CodePegs.new(1,2,3,4)
-		expect(codepegs.peg_set).to eq [1,2,3,4]
+    it "can create a code peg" do
+		peg = CodePegs.create_peg
+		peg.class.should == Fixnum
 	end
 	
-	it "validates the 4 numbers" do
-		codepegs = CodePegs.new(1,2,33,44)
-		codepegs.peg_set.should == [0,0,0,0]
+	it "can validate a peg" do
+		peg = 4
+		CodePegs.peg_valid?(peg).should == true
+		peg = 7
+		CodePegs.peg_valid?(peg).should == false
 	end	
 	
-	it "can return a single peg in the set" do
-		codepegs = CodePegs.new(1,2,3,4)
-		codepegs.ind_peg(0).should == 1
+	it "can validate a set of pegs" do
+		pegs = [1,2,3,4]
+		CodePegs.peg_set_valid?(pegs).should == true
+		pegs = [7,7,7,7]
+		CodePegs.peg_set_valid?(pegs).should == false
 	end
 	
-  end
+	it "can create a set of code pegs" do
+		pegs = CodePegs.create_peg_set
+		CodePegs.peg_set_valid?(pegs).should == true	
+	end
+	
+	end
 end

@@ -1,5 +1,6 @@
 module Mastermind
 	class DecodingBoard
+		#combines peg sets into a comprehensive whole and displays it
 		attr_reader :code_pegs
 		attr_accessor :key_pegs
 		def initialize(*peg_arrays)

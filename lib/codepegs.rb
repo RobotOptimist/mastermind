@@ -1,32 +1,31 @@
 module Mastermind
 	class CodePegs
 		#set of 4 numbers 1-6, duplicates allowed
-		def initialize(*pegs)
-			self.peg_set= pegs
+		def initialize
+		end
+						
+		def self.create_peg_set
+			peg_set = []
+			4.times {peg_set << create_peg}
+			peg_set
 		end
 		
-		def peg_set
-			@peg_set
+		def self.create_peg
+			rpeg = Random.new
+			peg = rpeg.rand(1..6)
+			peg
 		end
 		
-		def ind_peg(position)
-			@peg_set[position]
-		end
-		
-		def peg_set=(pegs)
-			if pegs_valid?(pegs) == true
-				@peg_set = pegs 
-			else
-				puts "Invalid entries detected. Please submit a set of 4 numbers which are between 1 and 6."
-				puts "setting peg_set to [0,0,0,0]"
-				@peg_set = [0,0,0,0]
-			end
-		end
-		
-		def pegs_valid?(pegs)
+		def self.peg_set_valid?(pegs)
 			check = pegs
 			valid = false
-			valid = true if check.all? {|peg| peg.between?(1,6)} && check.length == 4
+			valid = true if check.all? {|peg| peg_valid?(peg)} && check.length == 4
+			valid
+		end
+		
+		def self.peg_valid?(peg)
+			valid = false
+			valid = true if peg.between?(1,6)
 			valid
 		end
 		
