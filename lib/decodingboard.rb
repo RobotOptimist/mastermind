@@ -2,9 +2,11 @@ module Mastermind
 	class DecodingBoard
 		#combines peg sets into a comprehensive whole and displays it
 		attr_reader :code_pegs
+		attr_reader :mask
 		attr_accessor :key_pegs
 		def initialize(*peg_arrays)
 			assign_peg_arrays(peg_arrays)
+			@mask = [0,0,0,0]
 		end
 		
 		private
@@ -37,6 +39,7 @@ module Mastermind
 			code_pegs = code_pegs.join(' ')
 			display = [first_keys, code_pegs, last_keys].join(' ')
 		end
+		
 		
 	end
 end

@@ -1,3 +1,4 @@
+require "core_ext/extend_array.rb"
 require_relative "mastermind/version"
 
 module Mastermind
