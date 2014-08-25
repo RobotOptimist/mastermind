@@ -1,7 +1,25 @@
 module Mastermind
 	class CodeMaker
-	#I'm leaving this for now. 
-	#This class could be for the player to create their own code.
-	#They could play against the computer or against another player
+	def initialize
+	end
+	
+	def pick_code
+		@code = CodePegs.create_peg_set
+	end
+	
+	def user_pick_code
+	end
+	
+	def analyze_code		
+	end
+	
+	def analyze_guess(guess)
+		return_keypegs
+	end
+	
+	def return_keypegs
+		["no","no","no","no"]
+	end
+	
 	end
 end

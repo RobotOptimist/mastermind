@@ -9,18 +9,37 @@ module Mastermind
 			expect(codebreaker.guess).to eq([1,2,3,4])
 		end
 		
-		it "should submit guesses" do
+		it "should make a new guess" do
+			codebreaker = CodeBreaker.new
+			codebreaker.make_guess
+			expect(codebreaker.guess.count).to eq(4)
 		end
 		
-		it "should record the keypegs resulting from a guess" do
+		it "should record a guess it made up" do
+			codebreaker = CodeBreaker.new
+			first_guess = codebreaker.make_guess
+			expect(codebreaker.guess).to eq(first_guess)
 		end
 		
-		it "should sort and evaluate the keypegs" do
+		it "should evaluate the results of the key pegs and change the guess" do
+			codebreaker = CodeBreaker.new
+			first_guess = codebreaker.make_guess
+			codebreaker.results_keypegs = ["no","no","no","no"]
+			second_guess = codebreaker.make_guess
+			expect(second_guess).not_to eq(first_guess)			
 		end
 		
-		it "should resubmit a new guess based on the keypeg evaluation" do
+		it "should not reuse bad guesses" do
+			codebreaker = CodeBreaker.new
+			keypegs = ["no","no","match","match"]			
+			codebreaker.guess = [1,2,3,4]
+			codebreaker.results_keypegs = keypegs
+			guess = codebreaker.make_guess
+			expect(guess).not_to include(1)
+			expect(guess).not_to include(2)
 		end
 		
+				
 	end	
 	
 end

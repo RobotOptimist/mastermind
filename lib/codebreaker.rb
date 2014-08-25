@@ -13,11 +13,6 @@ module Mastermind
 	#6)does not reuse bad guesses	
 	
 	def initialize
-		@guess
-		@results_keypegs
-		@no_matches
-		@partial_matches
-		@matches
 	end
 	
 	
@@ -29,15 +24,16 @@ module Mastermind
 		@guess
 	end
 	
-	def results_keypegs=
-		@results_keypegs = keypegs		
+	def results_keypegs=(keypegs)
+		@results_keypegs = keypegs
 	end
 	
 	def results_keypegs
-		@results_keypegs
+		@results_keypegs		
 	end
 	
 	def make_guess
+		p results_keypegs
 		if @keypegs == nil			
 			@guess = make_all_new_guess
 		elsif @keypegs.include?("no") && @keypegs.include?("partial")
@@ -45,28 +41,31 @@ module Mastermind
 		elsif @keypegs.include?("partial") && @keypegs.include?("no") == false
 			shuffle_partials
 		elsif @keypegs.all? {|peg| peg != "partial"}
-			@guess.each {|peg|peg = replace_no_with_new}
+			replace_no_with_new
 		else
 			"Can't find a valid scenario!"
 		end
 	end
-	
+		
 	def make_all_new_guess
 		guess = CodePegs.create_peg_set
 	end
 	
 	def replace_no_with_new
-		bad_values = @no_matches.select {|value| value[0]}
-		bad_indexes = @no_matches.select {|value| value[1]}
-		loop do
+		bad_values = []
+		bad_indexes = []
+		@no_matches.each {|value| bad_values << value[0]}
+		@no_matches.each {|value| bad_indexes << value[1]}
+		until bad_indexes.empty? do
 			peg = CodePegs.create_peg
 			if bad_values.include?(peg)
 				next
 			else
+				index = bad_indexes.pop
+				@guess[index] = peg				
 				break
 			end
 		end
-		peg
 	end
 	
 	def evaluate_keypegs
@@ -78,7 +77,7 @@ module Mastermind
 	def record_no_matches
 		no_matches = []
 		@results_keypegs.each_with_index do |value,index|
-			no_matches << [value,index]
+			no_matches << [value,index] if value == "no"
 		end
 		@no_matches = no_matches
 	end
@@ -86,7 +85,7 @@ module Mastermind
 	def record_partial_matches
 		partial_matches = []
 		@results_keypegs.each_with_index do |value,index|
-			partial_matches << [value,index]
+			partial_matches << [value,index] if value == "partial"
 		end
 		@partial_matches = partial_matches
 	end
@@ -94,7 +93,7 @@ module Mastermind
 	def record_matches
 		matches = []
 		@results_keypegs.each_with_index do |value,index|
-			matches << [value,index]
+			matches << [value,index] if value == "match"
 		end
 		@matches = matches
 	end
