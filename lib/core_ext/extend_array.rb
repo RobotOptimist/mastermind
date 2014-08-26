@@ -10,7 +10,10 @@ class Array
 		args.each do |arg|
 			values << self[arg]
 		end
+		p values
+		p args
 		args.shuffle!
+		
 		args.each_with_index do |arg,index|
 			self[arg] = values[index]
 		end

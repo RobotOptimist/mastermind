@@ -21,13 +21,6 @@ module Mastermind
 			expect(codebreaker.guess).to eq(first_guess)
 		end
 		
-		it "should evaluate the results of the key pegs and change the guess" do
-			codebreaker = CodeBreaker.new
-			first_guess = codebreaker.make_guess
-			codebreaker.results_keypegs = ["no","no","no","no"]
-			second_guess = codebreaker.make_guess
-			expect(second_guess).not_to eq(first_guess)			
-		end
 		
 		it "should not reuse bad guesses" do
 			codebreaker = CodeBreaker.new
@@ -38,6 +31,7 @@ module Mastermind
 			expect(guess).not_to include(1)
 			expect(guess).not_to include(2)
 		end
+		
 		
 				
 	end	
