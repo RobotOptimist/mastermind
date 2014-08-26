@@ -5,13 +5,13 @@ class Array
 		self[second_index] = hold
 	end
 	
-	def shuffle_select_values(*args)
+	def shuffle_select_values(args)
 		values = []
+		args.flatten!
 		args.each do |arg|
 			values << self[arg]
 		end
-		p values
-		p args
+
 		args.shuffle!
 		
 		args.each_with_index do |arg,index|

@@ -114,7 +114,6 @@ module Mastermind
 		if @partial_indexes.count == 2
 			@guess.swap_values(@partial_indexes[0],@partial_indexes[1])
 		else
-			p "yes"
 			@guess.shuffle_select_values(@partial_indexes)
 		end
 	end
@@ -151,10 +150,15 @@ class TestCodeBreaker < Test::Unit::TestCase
 		tbreaker.guess = [1,2,3,4]
 		tbreaker.results_keypegs = ["match","match","partial","partial"]
 		tbreaker.shuffle_partials
+		
+		assert(tbreaker.guess) == [1,2,4,3]
+		
 		tbreaker.guess = [1,2,3,4]
 		tbreaker.results_keypegs = ["match","partial","partial","partial"]
 		tbreaker.shuffle_partials
-		p tbreaker.guess
+		tbreaker.guess
+		
+		assert(tbreaker.guess) == [1,3,4,2] 
 	end
 	
 	def test_replace_no_with_partial
@@ -163,6 +167,8 @@ class TestCodeBreaker < Test::Unit::TestCase
 		tbreaker.results_keypegs = ["no","no","no","partial"]
 		tbreaker.combine_nomatchindex_with_partialvalue
 		tbreaker.replace_no_with_partial
+		
+		assert(tbreaker.guess) == [4,2,3,4]
 	end
 end
 
