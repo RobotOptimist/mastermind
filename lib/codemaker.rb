@@ -1,5 +1,6 @@
 module Mastermind
 	require_relative "codepegs.rb"
+	require_relative "core_ext/extend_array.rb"
 	class CodeMaker
 	def initialize
 	end
@@ -20,16 +21,22 @@ module Mastermind
 		@code.count(num)			
 	end
 	
-	def count_actual_partials(num)
-		#@code.count(num)
-		#@keypegs.count("partial") where 
+	def count_actual_partials(num,keypegs,guess)
+		partials = 0
+		p_index = guess.find_all_indexes(num)
+		keypegs.each_with_index do |peg,index|
+			if peg == "partial" && p_index.include?(index)
+				partials += 1
+			end
+		end
+		partials
 	end
 	
 	def analyze_guess(guess)
 		keypegs = []
 		guess.each_with_index do |num,index|
 			possible_partial = count_possible_partials(num)
-			actual_partial = keypegs.count("partial")			
+			actual_partial = count_actual_partials(num,keypegs,guess)	
 			if @code[index] == num
 				keypegs << "match"
 			elsif @code.include?(num) && actual_partial < possible_partial
