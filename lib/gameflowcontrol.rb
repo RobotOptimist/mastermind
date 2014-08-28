@@ -20,7 +20,7 @@ module Mastermind
 		end
 		
 		def play_game
-			@player.codemaker = true ? player_codemaker : player_codebreaker
+			@player.codemaker == true ? player_codemaker : player_codebreaker
 		end
 		
 		def player_codemaker
@@ -31,17 +31,21 @@ module Mastermind
 			@player.guess_number.times do
 				guess = @codebreaker.make_guess
 				i += 1
+				p guess
 				@decodingboard.add_to_board(guess,keys)	
-				@decodingborad.display_board
+				@decodingboard.display_board
 				keys = @player.give_keys
+				@codebreaker.results_keypegs = keys
 				if win?(keys)
 					codemaker_lose(i) 
 					break
 				end
 			end
 			
-			puts "CONGRATULATIONS!"
-			puts "You Win!"
+			if i > @player.guess_number
+				puts "CONGRATULATIONS!"
+				puts "You Win!"
+			end
 			
 		end
 		
@@ -66,9 +70,11 @@ module Mastermind
 				end
 			end
 			
-			puts "HA! I am the master! Bow before your AI Overlord."
-			puts "Do it! Bow! Why aren't you bowing?"
-			puts "You lose!"
+			if i > @player.guess_number			
+				puts "HA! I am the master! Bow before your AI Overlord."
+				puts "Do it! Bow! Why aren't you bowing?"
+				puts "You lose!"
+			end
 			
 		end
 		
@@ -79,9 +85,18 @@ module Mastermind
 		
 		def win?(keys)
 			win = false
-			win = true if keys.all? (|key| key == "match"}
+			win = true if keys.all? {|key| key == "match"}
 			win
 		end
 						
+	end
+	
+	require 'test\unit'
+	
+	class TestGameFlowControl < Test::Unit::TestCase
+		def testgame
+			tgame = GameFlowControl.new
+			tgame.begin_game
+		end
 	end
 end

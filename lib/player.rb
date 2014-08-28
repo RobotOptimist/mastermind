@@ -45,7 +45,7 @@ module Mastermind
 				when "1" then @codemaker = true
 				when "2" then @codemaker = false
 				when "codemaker" then @codemaker = true
-				when "codebreaker" then @codebreaker = true
+				when "codebreaker" then @codemaker = false
 				else "Your choice is invalid! Try again!"
 				end
 			end
